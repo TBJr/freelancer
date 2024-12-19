@@ -1,4 +1,3 @@
-// src/components/InvoiceForm.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -9,13 +8,14 @@ const InvoiceForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
-            const response = await axios.post('/.netlify/functions/createInvoice', {
-                clientId,
-                amount,
-                description,
-            });
-            console.log('Invoice created:', response.data);
+            await axios.post('/.netlify/functions/createInvoice', { clientId, amount, description });
+
+            // Reset form or show success message
+            setClientId('');
+            setAmount('');
+            setDescription('');
         } catch (error) {
             console.error('Error creating invoice:', error);
         }
@@ -23,6 +23,7 @@ const InvoiceForm = () => {
 
     return (
         <form onSubmit={handleSubmit}>
+
             <input
                 type="text"
                 placeholder="Client ID"
@@ -30,6 +31,7 @@ const InvoiceForm = () => {
                 onChange={(e) => setClientId(e.target.value)}
                 required
             />
+
             <input
                 type="number"
                 placeholder="Amount"
@@ -37,13 +39,16 @@ const InvoiceForm = () => {
                 onChange={(e) => setAmount(e.target.value)}
                 required
             />
+
             <textarea
                 placeholder="Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required
             />
+
             <button type="submit">Create Invoice</button>
+
         </form>
     );
 };
