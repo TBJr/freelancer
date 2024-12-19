@@ -1,4 +1,3 @@
-// netlify/functions/createInvoice.js
 const faunadb = require('faunadb');
 const q = faunadb.query;
 
